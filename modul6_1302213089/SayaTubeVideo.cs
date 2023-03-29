@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,9 @@ namespace modul6_1302213089
 
         public SayaTubeVideo(string title)
         {
+            Debug.Assert(title != null, "Judul tidak boleh kosong!");
+            Debug.Assert(title.Length <= 200, "Judul lebih dari 200 karakter!");
+
             this.title = title;
             Random objRandom = new Random();
             id = objRandom.Next(10000, 99999);
@@ -23,6 +27,9 @@ namespace modul6_1302213089
 
         public void IncreasePlayCount(int playCount)
         {
+            Debug.Assert(playCount <= 25000000, "Tambahan playCount lebih dari 25.000.000!");
+            Debug.Assert(playCount > 0, "Tambahan playCount tidak boleh negatif!");
+
             this.playCount += playCount;
         }
 

@@ -15,6 +15,9 @@ namespace modul6_1302213089
 
         public SayaTubeUser(string username)
         {
+            Debug.Assert(username.Length <= 100, "Panjang username maksimal 100 karakter!");
+            Debug.Assert(username != null, "Username tidak boleh kosong!");
+
             this.username = username;
             Random objRandom = new Random();
             id = objRandom.Next(10000, 99999);
@@ -24,15 +27,26 @@ namespace modul6_1302213089
         public int GetTotalVideoPlayCount()
         {
             int jumlah = 0;
-            for (int i = 0; i < uploadedVideos.Count; i++)
+            try
             {
-                jumlah += uploadedVideos[i].getPlayCount();
+                for (int i = 0; i < uploadedVideos.Count; i++)
+                {
+                    jumlah = checked(jumlah + uploadedVideos[i].getPlayCount());
+                }
             }
+            catch (OverflowException)
+            {
+                Console.WriteLine("Jumlah playCount melebihi bilangan integer maksimum!");
+            }
+
             return jumlah;
         }
 
         public void AddVideo(SayaTubeVideo video)
         {
+            Debug.Assert(video != null, "Video tidak boleh kosong!");
+            Debug.Assert(video.getPlayCount() <= 2147483647, "Jumlah playCount melebihi bilangan integer maksimum!");
+
             this.uploadedVideos.Add(video);
         }
 
@@ -42,6 +56,7 @@ namespace modul6_1302213089
             for(int i = 0; i < uploadedVideos.Count; i++)
             {
                 Console.WriteLine("Video : " + (i + 1) + " judul : " + uploadedVideos[i].getTitle());
+                Debug.Assert(i <= 8, "Video yang dicetak melebihi 8!");
             }
         }
     }
